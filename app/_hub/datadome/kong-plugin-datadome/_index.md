@@ -4,51 +4,43 @@ This plugin will analyse in real time any API requests received. For each reques
 The only thing to configure is your DataDome Server Side Key.
 
 ## How it works
+
 The DataDome plugin will hook into the request/response of an API request and it is executed for every request from a client and before it is being proxied to the upstream on the access phase (see details [here](https://openresty-reference.readthedocs.io/en/latest/Directives/)).
 
 ## How to install
 
-### Install the DataDome plugin
+Custom plugins can be installed via LuaRocks. A Lua plugin is distributed in `.rock` format, which is
+a self-contained package that can be installed locally or from a remote server.
 
-```shell
-luarocks install kong-plugin-datadome
-```
+If you used one of the official {{site.base_gateway}} installation packages, the LuaRocks utility
+should already be installed in your system.
+Install the `.rock` in your LuaRocks tree, that is, the directory in which LuaRocks
+installs Lua modules.
 
-### Add DataDome to the loaded plugins list
-You can choose one of the options below:
+1. Install the DataDome plugin:
 
-1. In your `kong.conf`, append `datadome` to the `plugins` variable.
+    ```sh
+    luarocks install kong-plugin-datadome
+    ```
 
-```yaml
-plugins = bundled,datadome       # Comma-separated list of plugins this node
-                                 # should load. By default, only plugins
-                                 # bundled in official distributions are
-                                 # loaded via the `bundled` keyword.
-```
+2. Update your loaded plugins list in {{site.base_gateway}}.
 
-2. Append `datadome` to the KONG_PLUGINS evironment variable.
+    In your `kong.conf`, append `datadome` to the `plugins` field. Make sure the field is not commented out.
 
-```shell
-KONG_PLUGINS = bundled,datadome
-```
+    ```yaml
+    plugins = bundled,datadome              # Comma-separated list of plugins this node
+                                            # should load. By default, only plugins
+                                            # bundled in official distributions are
+                                            # loaded via the `bundled` keyword.
+    ```
 
-### Apply the plugin
+3. Restart {{site.base_gateway}}:
 
-You can restart Kong:
+    ```sh
+    kong restart
+    ```
 
-```shell
-kong restart
-```
-
-Or, if you want to apply a plugin without stopping Kong:
-
-```shell
-kong prepare
-kong reload
- ```
-
-
-### Configuration
+## Using the plugin
 
 First of all, make sure you have your DataDome Server Side Key. It is available inside your [Dashboard > Integrations](https://app.datadome.co/dashboard/management/integrations).
 
