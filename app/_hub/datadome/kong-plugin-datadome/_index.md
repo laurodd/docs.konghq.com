@@ -1,11 +1,12 @@
 The DataDome plugin is developed in Lua and integrates smoothly with Kong.
 
-This plugin will analyse in real time any API requests received. For each request, an api call is sent to DataDome Bot & Fraud Protection Platform to validate if this is legitimate or not.
-The only thing to configure is your DataDome Server Side Key.
+This plugin relies on the DataDome Bot & Fraud Protection Platform to validate if any incoming API request is legitimate or coming from a bot.
+The only requirement to configure it is your DataDome server-side key.
+
 
 ## How it works
 
-The DataDome plugin will hook into the request/response of an API request and it is executed for every request from a client and before it is being proxied to the upstream on the access phase (see details [here](https://openresty-reference.readthedocs.io/en/latest/Directives/)).
+The DataDome plugin will hook into every API request from a client, and it will run before they are proxied to the upstream on the access phase (see details [here](https://openresty-reference.readthedocs.io/en/latest/Directives/)).
 
 ## How to install
 
@@ -42,23 +43,24 @@ installs Lua modules.
 
 ## Using the plugin
 
-First of all, make sure you have your DataDome Server Side Key. It is available inside your [Dashboard > Integrations](https://app.datadome.co/dashboard/management/integrations).
+First of all, make sure you have your DataDome server-side key. It is available inside your dashboard in the [Integrations](https://app.datadome.co/dashboard/management/integrations) section.
 
-#### Kong Gateway (OSS)
-If you already have an API configured, execute the command below replacing the following `<values>`:
+### Kong Gateway (OSS)
+
+If you already configured an API, execute the command below after replacing `<YOUR_API>` with the name of your API and `<server_side_key>` with your DataDome server-side key.
 
 ```shell
 curl -i -X POST http://localhost:8001/services/<YOUR_API>/plugins \
      -F "name=datadome" \
      -F "config.datadome_server_side_key=<server_side_key>"
- ```
+```
 
-#### Kong Konnect
+### Kong Konnect
 
-- Depending where you want to enable DataDome, select *Plugins*
-- Click *+ New Plugin*
-- On Custom Plugins, select *DataDome*
-- Fill *Datadome Server Side Key*
-- *Save*
+- Depending on where you want to enable DataDome, select `Plugins`
+- Click on `+ New Plugin`
+- On `Custom Plugins`, select `DataDome`
+- Fill the *Datadome Server Side Key* field
+- Hit `Save`
 
 For further information, please check our [DataDome Kong documentation page](https://docs.datadome.co/docs/kong-plugin).
